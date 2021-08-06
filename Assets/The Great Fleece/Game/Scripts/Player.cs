@@ -1,13 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Player : MonoBehaviour
 {
+    private NavMeshAgent _agent;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        _agent = GetComponent<NavMeshAgent>();
     }
 
     // Update is called once per frame
@@ -16,19 +19,15 @@ public class Player : MonoBehaviour
         // if left click
         if (Input.GetMouseButtonDown(0))
         {
-            // cast raycast from mouse position
             Ray rayOrigin = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hitInfo;
             if (Physics.Raycast(rayOrigin, out hitInfo))
             {
-                //debug the floor position
                 Debug.Log("Hit: " + hitInfo.point);
                 Debug.Log("Hit Name: " + hitInfo.transform.name);
 
-                GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                cube.transform.position = hitInfo.point;
+                _agent.SetDestination(hitInfo.point);
             }
         }
-        //create object at floor position
     }
 }
