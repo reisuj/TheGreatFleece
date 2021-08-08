@@ -28,16 +28,28 @@ public class GuardAI : MonoBehaviour
 
             if (distance < 1)
             {
-                _anim.SetBool("Walk", false);
+                if (_anim != null)
+                {
+                    _anim.SetBool("Walk", false);
+                }
+                
             }
             else
             {
-                _anim.SetBool("Walk", true);
+                if (_anim != null)
+                {
+                    _anim.SetBool("Walk", true);
+                }
             }
 
             if (distance < 1.0f && _targetReached == false)
             {
-                if ((_currentTarget == 0 || _currentTarget == wayPoints.Count - 1))
+                if (wayPoints.Count < 2)
+                {
+                    return;
+                }
+
+                if ((_currentTarget == 0 || _currentTarget == wayPoints.Count - 1) && wayPoints.Count > 1)
                 {
                     _targetReached = true;
                     StartCoroutine(WaitBeforeMoving());
