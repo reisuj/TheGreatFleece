@@ -10,9 +10,11 @@ public class GuardAI : MonoBehaviour
     private NavMeshAgent _agent;
     private bool _reverse = false;
     private bool _targetReached;
+    private Animator _anim;
     void Start()
     {
-        _agent = GetComponent<NavMeshAgent>();      
+        _agent = GetComponent<NavMeshAgent>();
+        _anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -23,6 +25,15 @@ public class GuardAI : MonoBehaviour
             _agent.SetDestination(wayPoints[_currentTarget].position);
 
             float distance = Vector3.Distance(transform.position, wayPoints[_currentTarget].position);
+
+            if (distance < 1)
+            {
+                _anim.SetBool("Walk", false);
+            }
+            else
+            {
+                _anim.SetBool("Walk", true);
+            }
 
             if (distance < 1.0f && _targetReached == false)
             {
@@ -47,7 +58,7 @@ public class GuardAI : MonoBehaviour
                         _currentTarget++;
                     }
                 }
-            }            
+            }
         }
     }
 
