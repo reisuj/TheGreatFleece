@@ -5,10 +5,23 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
-
     public static GameManager Instance
     {
-        get;
-        set;
+        get
+        {
+            if (_instance == null)
+            {
+                Debug.LogError("GameManager is NULL!!");
+            }
+
+            return _instance;
+        }
+    }
+
+    public bool HasCard { get; set; }
+
+    private void Awake()
+    {
+        _instance = this;
     }
 }
